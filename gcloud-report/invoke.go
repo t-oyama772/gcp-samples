@@ -21,7 +21,7 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"os/exec"
+	// "os/exec"
 	"regexp"
 )
 
@@ -43,6 +43,8 @@ func main() {
 }
 
 func scriptHandler(w http.ResponseWriter, r *http.Request) {
+	log.Print("helloworld: received a request")
+
 	search := r.URL.Query().Get("search")
 	re := regexp.MustCompile(`^[a-z]+[a-z0-9\-]*$`)
 	if !re.MatchString(search) {
@@ -50,15 +52,15 @@ func scriptHandler(w http.ResponseWriter, r *http.Request) {
 		search = "."
 	}
 
-	cmd := exec.CommandContext(r.Context(), "/bin/bash", "script.sh", search)
-	cmd.Stderr = os.Stderr
-	out, err := cmd.Output()
-	if err != nil {
-		log.Printf("Command.Output: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-	w.Write(out)
+	// cmd := exec.CommandContext(r.Context(), "/bin/bash", "script.sh", search)
+	// cmd.Stderr = os.Stderr
+	// out, err := cmd.Output()
+	// if err != nil {
+	// 	log.Printf("Command.Output: %v", err)
+	// 	http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+	// 	return
+	// }
+	// w.Write(out)
 }
 
 // [END cloudrun_report_server]
